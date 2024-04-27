@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linlu.wms.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.linlu.wms.domain.User">
+            <id property="id" column="id" jdbcType="VARCHAR"/>
+            <result property="dept_id" column="dept_id" jdbcType="VARCHAR"/>
+            <result property="user_name" column="user_name" jdbcType="VARCHAR"/>
+            <result property="nick_name" column="nick_name" jdbcType="VARCHAR"/>
+            <result property="user_type" column="user_type" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="phone_number" column="phone_number" jdbcType="VARCHAR"/>
+            <result property="sex" column="sex" jdbcType="CHAR"/>
+            <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="CHAR"/>
+            <result property="del_flag" column="del_flag" jdbcType="CHAR"/>
+            <result property="login_ip" column="login_ip" jdbcType="VARCHAR"/>
+            <result property="login_date" column="login_date" jdbcType="TIMESTAMP"/>
+            <result property="create_by" column="create_by" jdbcType="VARCHAR"/>
+            <result property="create_time" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="update_by" column="update_by" jdbcType="VARCHAR"/>
+            <result property="update_time" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,dept_id,user_name,
+        nick_name,user_type,email,
+        phone_number,sex,avatar,
+        password,status,del_flag,
+        login_ip,login_date,create_by,
+        create_time,update_by,update_time,
+        remark
+    </sql>
+</mapper>
