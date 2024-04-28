@@ -1,7 +1,7 @@
 package com.linlu.wms.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.linlu.wms.domain.User;
+import com.linlu.wms.domain.entity.User;
 import com.linlu.wms.service.UserService;
 import com.linlu.wms.mapper.UserMapper;
 import org.springframework.stereotype.Service;

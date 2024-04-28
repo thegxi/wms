@@ -1,6 +1,6 @@
 package com.linlu.wms.service;
 
-import com.linlu.wms.domain.User;
+import com.linlu.wms.domain.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
