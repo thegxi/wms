@@ -8,6 +8,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 登录服务
+ *
+ * @author xi
+ */
 @RestController
 public class LoginController {
     @Autowired
@@ -15,7 +20,10 @@ public class LoginController {
 
     @PostMapping("login")
     public CommonResult<?> login(@Validated LoginParam loginParam) {
-
-        return CommonResult.success(null);
+        String token = loginService.login(loginParam);
+        if (token == null) {
+            return CommonResult.fail("登录失败", null);
+        }
+        return CommonResult.success(token);
     }
 }

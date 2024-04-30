@@ -1,8 +1,12 @@
 package com.linlu.wms.common.api;
 
 import lombok.Getter;
-import lombok.Setter;
 
+/**
+ * 返回状态码
+ *
+ * @author xi
+ */
 @Getter
 public enum ResultCode {
     SUCCESS(200L, "操作成功"),

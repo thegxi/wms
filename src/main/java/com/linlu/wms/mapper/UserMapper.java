@@ -2,6 +2,9 @@ package com.linlu.wms.mapper;
 
 import com.linlu.wms.domain.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.List;
 
 /**
 * @author xi
@@ -11,6 +14,13 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface UserMapper extends BaseMapper<User> {
 
+    /**
+     * 根据用户id获取用户的所有权限
+     *
+     * @param userId 用户id
+     * @return 权限
+     */
+    List<GrantedAuthority> listUserAllPermission(String userId);
 }
 
 

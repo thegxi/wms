@@ -1,5 +1,10 @@
 package com.linlu.wms.common.api;
 
+/**
+ * 通用结果返回
+ *
+ * @author xi
+ */
 public class CommonResult<T> {
     private Long code;
     private String msg;

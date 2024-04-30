@@ -6,5 +6,5 @@ public interface LoginService {
     /**
      * 用户名和密码登陆
      */
-    void login(LoginParam loginParam);
+    String login(LoginParam loginParam);
 }

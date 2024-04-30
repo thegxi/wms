@@ -1,27 +1,57 @@
 package com.linlu.wms.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.linlu.wms.common.api.CommonResult;
 import com.linlu.wms.domain.entity.User;
 import com.linlu.wms.domain.param.LoginParam;
-import com.linlu.wms.exception.user.UserException;
-import com.linlu.wms.mapper.UserMapper;
+import com.linlu.wms.security.SecurityUserDetail;
 import com.linlu.wms.service.LoginService;
+import com.linlu.wms.service.UserService;
+import com.linlu.wms.util.JwtUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 @Service
+@Slf4j
 public class LoginServiceImpl implements LoginService {
     @Autowired
-    private UserMapper userMapper;
+    private JwtUtil jwtUtil;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Override
-    public void login(LoginParam loginParam) {
-        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.eq("username", loginParam.getEncryptUsername());
-        userQueryWrapper.eq("password", loginParam.getEncryptPasswd());
-        User user = userMapper.selectOne(userQueryWrapper);
-        if (user == null) {
-            throw new UserException("user", 404L, null, "用户不存在或密码错误");
+    public String login(LoginParam loginParam) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginParam.getUsername(), loginParam.getPassword());
+        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+        Assert.notNull(authenticate, "用户名或密码错误");
+        if (authenticate.getPrincipal() instanceof SecurityUserDetail userDetail) {
+            String token = jwtUtil.generateTokenFromUser(userDetail);
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            log.info("登录成功, user: {}/{}", userDetail.getUserId(), userDetail.getUsername());
+            return token;
+        } else {
+            log.error("登录异常，从上下文获取用户信息失败， authen");
+            return null;
         }
+    }
+
+    /**
+     * SecurityUserDetail转换成User
+     * @param userDetails
+     * @return
+     */
+    private User changeToUser(SecurityUserDetail userDetails) {
+        User user = new User();
+        user.setId(userDetails.getUserId());
+        user.setUserName(user.getUserName());
+        user.setPassword(user.getPassword());
+        return user;
     }
 }
