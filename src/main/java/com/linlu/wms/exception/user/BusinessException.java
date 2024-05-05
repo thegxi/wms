@@ -11,7 +11,7 @@ public class BusinessException extends RuntimeException {
     /**
      * 错误码
      */
-    private Integer code;
+    private Long code;
 
     /**
      * 错误提示
@@ -33,7 +33,7 @@ public class BusinessException extends RuntimeException {
         this.message = message;
     }
 
-    public BusinessException(String message, Integer code) {
+    public BusinessException(String message, Long code) {
         this.message = message;
         this.code = code;
     }
@@ -47,7 +47,7 @@ public class BusinessException extends RuntimeException {
         return message;
     }
 
-    public Integer getCode() {
+    public Long getCode() {
         return code;
     }
 

@@ -12,7 +12,7 @@ public class LoginParam {
      * 加密的用户名
      */
     @NotEmpty
-    private String username;
+    private String userName;
     /**
      * 加密的密码
      */

@@ -1,8 +1,6 @@
 package com.linlu.wms.service.impl;
 
-import com.linlu.wms.common.api.CommonResult;
 import com.linlu.wms.domain.entity.User;
-import com.linlu.wms.domain.param.LoginParam;
 import com.linlu.wms.security.SecurityUserDetail;
 import com.linlu.wms.service.LoginService;
 import com.linlu.wms.service.UserService;
@@ -16,8 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-@Service
 @Slf4j
+@Service
 public class LoginServiceImpl implements LoginService {
     @Autowired
     private JwtUtil jwtUtil;
@@ -27,8 +25,8 @@ public class LoginServiceImpl implements LoginService {
     private AuthenticationManager authenticationManager;
 
     @Override
-    public String login(LoginParam loginParam) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginParam.getUsername(), loginParam.getPassword());
+    public String login(String userName, String password) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userName, password);
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         Assert.notNull(authenticate, "用户名或密码错误");
         if (authenticate.getPrincipal() instanceof SecurityUserDetail userDetail) {
@@ -37,13 +35,14 @@ public class LoginServiceImpl implements LoginService {
             log.info("登录成功, user: {}/{}", userDetail.getUserId(), userDetail.getUsername());
             return token;
         } else {
-            log.error("登录异常，从上下文获取用户信息失败， authen");
+            log.error("登录异常，从上下文获取用户信息失败， authenticate:{}", authenticate);
             return null;
         }
     }
 
     /**
      * SecurityUserDetail转换成User
+     *
      * @param userDetails
      * @return
      */

@@ -1,10 +1,8 @@
 package com.linlu.wms.service;
 
-import com.linlu.wms.domain.param.LoginParam;
-
 public interface LoginService {
     /**
      * 用户名和密码登陆
      */
-    String login(LoginParam loginParam);
+    String login(String userName, String password);
 }

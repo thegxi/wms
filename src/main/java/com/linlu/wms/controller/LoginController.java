@@ -6,6 +6,7 @@ import com.linlu.wms.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -19,8 +20,8 @@ public class LoginController {
     private LoginService loginService;
 
     @PostMapping("login")
-    public CommonResult<?> login(@Validated LoginParam loginParam) {
-        String token = loginService.login(loginParam);
+    public CommonResult<?> login(@Validated @RequestBody LoginParam loginParam) {
+        String token = loginService.login(loginParam.getUserName(), loginParam.getPassword());
         if (token == null) {
             return CommonResult.fail("登录失败", null);
         }

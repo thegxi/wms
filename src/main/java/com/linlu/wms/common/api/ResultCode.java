@@ -18,7 +18,7 @@ public enum ResultCode {
     private Long code;
     private String msg;
 
-    private ResultCode(Long code, String msg) {
+    ResultCode(Long code, String msg) {
         this.code = code;
         this.msg = msg;
     }

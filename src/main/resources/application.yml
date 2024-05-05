@@ -1,7 +1,7 @@
 jwt:
   expiration: 604800 #JWT过期时间(60 * 60 * 24 * 7)
   header: Authorization
-  secret: linlu-wms
+  secret: ihavetotakeashowerbefo
   duration: 1200000 # 有效期不足20分钟时续期(20 * 60 * 1000)
 spring:
   application:
@@ -11,10 +11,16 @@ spring:
     url: jdbc:mysql://localhost:3306/wms?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
     username: root
     password: root@mysql
-  auth:
-    ignored:
-      urls:
-        - /swagger-ui/
-        - /**/v2/api-docs
-        - /login
-        - /register
+  redis:
+    host: localhost
+    port: 6379
+    password: 12345678
+auth:
+  ignored:
+    urls:
+      - /swagger-ui/
+      - /**/v2/api-docs
+      - /login
+      - /register
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml

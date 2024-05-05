@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -41,7 +42,7 @@ public class JwtUtil {
      */
     public String generateTokenFromUser(SecurityUserDetail securityUserDetail) {
         Map<String, Object> claim = new HashMap<>();
-        String randomKey = RandomStringUtils.random(16) + securityUserDetail.getUserId();
+        String randomKey = RandomStringUtils.randomAlphanumeric(16) + securityUserDetail.getUserId();
         securityUserDetail.setTempKey(randomKey);
         claim.put(Constant.USER_CLAIM_KEY, randomKey);
         claim.put(Constant.USER_CREATE_TIME_CLAIM_KEY, new Date());

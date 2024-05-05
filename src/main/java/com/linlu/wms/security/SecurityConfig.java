@@ -4,6 +4,8 @@ import com.linlu.wms.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
@@ -28,29 +30,10 @@ import org.springframework.security.web.access.intercept.AuthorizationFilter;
 public class SecurityConfig {
 
     @Autowired
-    private TokenFilter tokenFilter;
-    @Autowired
     private IgnoredUrlConfig ignoredUrlConfig;
+    @Autowired
+    private TokenFilter tokenFilter;
 
-    /**
-     * 配置PasswordEncoder(密码编码器)
-     *
-     * @return BCryptPasswordEncoder
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    /**
-     * 配置token工具类
-     *
-     * @return JwtUtil
-     */
-    @Bean
-    public JwtUtil jwtUtil() {
-        return new JwtUtil();
-    }
 
     /**
      * 配置AuthenticationManager(认证管理器）
@@ -77,18 +60,20 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity, TokenFilter tokenFilter) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         // 放行请求
-        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = httpSecurity.authorizeRequests();
-        for (String url : ignoredUrlConfig.getUrls()) {
-            registry.antMatchers(url).permitAll();
-        }
+//        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = httpSecurity.authorizeRequests();
+//        for (String url : ignoredUrlConfig.getUrls()) {
+//            registry.antMatchers(url).permitAll();
+//        }
         httpSecurity
                 // CSRF禁用,不使用session
                 .csrf().disable()
                 // 基于token不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().anyRequest().authenticated();
+                .authorizeRequests()
+                .antMatchers("/login").permitAll()
+                .anyRequest().authenticated();
 
         // 配置token校验过滤器
         httpSecurity.addFilterBefore(tokenFilter, AuthorizationFilter.class);

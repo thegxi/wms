@@ -36,5 +36,5 @@
         remark
     </sql>
 
-    <select id="listUserAllPermission" resultType=" "></select>
+    <select id="listUserAllPermission" resultType="String"></select>
 </mapper>

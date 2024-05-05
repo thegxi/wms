@@ -1,10 +1,15 @@
 package com.linlu.wms.common.api;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 通用结果返回
  *
  * @author xi
  */
+@Getter
+@Setter
 public class CommonResult<T> {
     private Long code;
     private String msg;
@@ -40,6 +45,16 @@ public class CommonResult<T> {
      */
     public static <T> CommonResult<T> success(String msg, T data) {
         return new CommonResult<T>(ResultCode.SUCCESS.getCode(), msg, data);
+    }
+
+    /**
+     * 失败返回自定义消息及结果
+     *
+     * @param msg  提示消息
+     * @return 封装结果
+     */
+    public static <T> CommonResult<T> fail(String msg) {
+        return new CommonResult<T>(ResultCode.FAIL.getCode(), msg, null);
     }
 
     /**

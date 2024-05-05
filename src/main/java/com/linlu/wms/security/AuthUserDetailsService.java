@@ -21,7 +21,7 @@ public class AuthUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.getUserByname(username);
+        User user = userService.getUserByName(username);
         Assert.notNull(user, "用户不存在或密码错误");
         SecurityUserDetail userDetail = new SecurityUserDetail();
         userDetail.setUserId(user.getId());
